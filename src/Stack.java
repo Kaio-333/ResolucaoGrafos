@@ -1,24 +1,21 @@
-package utils;
-
-
-public class Stack<T> {
-    private Node<T> topo;
+public class Stack {
+    private Node topo;
 
     public Stack() {
         this.topo = null;
     }
 
-    public void push(T e) {
-        Node<T> novo = new Node<>(e);
+    public void push(Object e) {
+        Node novo = new Node(e);
         novo.next = topo;
         topo = novo;
     }
 
-    public T pop() {
+    public Object pop() {
         if (isEmpty()) {
             throw new RuntimeException("A pilha esta vazia");
         }
-        T valor = topo.data;
+        Object valor = topo.data;
         topo = topo.next;
         return valor;
     }
@@ -31,7 +28,7 @@ public class Stack<T> {
         return topo == null;
     }
 
-    public T peek() {
+    public Object peek() {
         if (isEmpty()) {
             throw new RuntimeException("A pilha esta vazia");
         }
@@ -39,7 +36,7 @@ public class Stack<T> {
     }
 
     public static void main(String[] args) {
-        Stack<String> pilha = new Stack<>();
+        Stack pilha = new Stack();
 
         pilha.push("Kaio");
         pilha.push("Angelo");

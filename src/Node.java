@@ -1,10 +1,9 @@
 public class Node {
-    char letter;
-    Node left, right;
+    Object data;
+    Node next;
 
-    public Node(char letter) {
-        this.letter = letter;
-        this.left = null;
-        this.right = null;
+    public Node(Object data) {
+        this.data = data;
+        this.next = null;
     }
 }

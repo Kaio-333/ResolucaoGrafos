@@ -1,5 +1,3 @@
-package utils;
-
 //enqueue → adiciona no final da fila (last)
 //
 //dequeue → remove do início da fila (first)
@@ -8,17 +6,17 @@ package utils;
 //
 //isEmpty → verifica se não há elementos
 
-public class Queue<T> {
-    private Node<T> first;
-    private Node<T> last;
+public class Queue {
+    private Node first;
+    private Node last;
 
     public Queue() {
         this.first = null;
         this.last = null;
     }
 
-    public void enqueue(T e) {
-        Node<T> novo = new Node<>(e);
+    public void enqueue(Object e) {
+        Node novo = new Node(e);
         if (isEmpty()) {
             first = last = novo;
         } else {
@@ -27,11 +25,11 @@ public class Queue<T> {
         }
     }
 
-    public T dequeue() {
+    public Object dequeue() {
         if (isEmpty()) {
             throw new RuntimeException("Fila esta vazia");
         }
-        T valor = first.data;
+        Object valor = first.data;
         first = first.next;
         if (first == null) {
             last = null;
@@ -48,7 +46,7 @@ public class Queue<T> {
         return first == null;
     }
 
-    public T peek() {
+    public Object peek() {
         if (isEmpty()) {
             throw new RuntimeException("Fila esta vazia");
         }
@@ -56,7 +54,7 @@ public class Queue<T> {
     }
 
     public static void main(String[] args) {
-        Queue<String> fila = new Queue<>();
+        Queue fila = new Queue();
 
         fila.enqueue("Kaio");
         fila.enqueue("Angelo");
