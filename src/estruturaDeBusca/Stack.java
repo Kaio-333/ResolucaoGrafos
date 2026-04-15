@@ -1,3 +1,5 @@
+package estruturaDeBusca;
+
 public class Stack {
     private Node topo;
 

@@ -1,5 +1,7 @@
-import ListaEncadeada.ListaEncadeada;
-import ListaEncadeada.Node;
+import estruturaDeBusca.Queue;
+import estruturaDeBusca.Stack;
+import listaEncadeada.ListaEncadeada;
+import listaEncadeada.Node;
 
 public class Grafo {
     // atributos para o dijkstra
@@ -12,12 +14,19 @@ public class Grafo {
     private String[] vetor;
     public int tamanho;
 
+    // busca Em Profundidade
+    Stack[] stack;
+
+    //busca Em largura
+    Queue[] queue;
 
     public Grafo(int tamanho) {
         list   = new ListaEncadeada[tamanho];
         vetor  = new String[tamanho];
         this.tamanho = tamanho;
         this.caminho = new int[tamanho];
+        this.stack = new Stack[tamanho];
+        this.queue = new Queue[tamanho];
 
         for (int i = 0; i < tamanho; i++)
             list[i] = new ListaEncadeada();
@@ -62,7 +71,8 @@ public class Grafo {
     //  TDE 2
     // -------------------------------
 
-    public boolean[][] warshall() { // codigo do menor caminho
+    public boolean[][] warshall() {
+        // codigo do menor caminho
         // Monta a matriz de adjacência  a partirda lista
         boolean[][] encontrarCaminho = new boolean[tamanho][tamanho];
         for (int i = 0; i < tamanho; i++) {
@@ -194,5 +204,88 @@ public class Grafo {
         System.out.println();
     }
 
+    // ================
+    //     TDE 4
+    // ================
 
+
+    public Stack BuscarProfundidade(int O, int D, Stack visitados) {
+        // Se O == D, adiciona ao visitados e retorna
+        if (O == D) {
+            visitados.push(O);
+            return visitados;
+        }
+
+        // Verifica se O já foi visitado
+        if (!contemVertice(visitados, O)) {
+            visitados.push(O);
+
+            // Para cada vértice A adjacente a O
+            int[] adj = new int[tamanho];
+            int qtd = adjacentes(O, adj);
+
+            for (int i = 0; i < qtd; i++) {
+                int A = adj[i];
+                Stack resultado = BuscarProfundidade(A, D, visitados);
+                if (resultado != null) {
+                    return resultado;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private boolean contemVertice(Stack visitados, int vertice) {
+        // Copia os elementos para verificar sem destruir a pilha original
+        Stack temp = new Stack();
+        boolean encontrou = false;
+
+        // Desempilha tudo para verificar
+        while (!visitados.isEmpty()) {
+            Object val = visitados.pop();
+            temp.push(val);
+            if ((int) val == vertice) {
+                encontrou = true;
+            }
+        }
+
+        // Restaura a pilha original
+        while (!temp.isEmpty()) {
+            visitados.push(temp.pop());
+        }
+
+        return encontrou;
+    }
+
+    public void imprimirBuscaProfundidade(int origem, int destino) {
+        Stack visitados = new Stack();
+        Stack resultado = BuscarProfundidade(origem, destino, visitados);
+
+        System.out.println("\n=== Busca em Profundidade ===");
+        System.out.printf("De: %s  Até: %s%n", vetor[origem], vetor[destino]);
+
+        if (resultado == null) {
+            System.out.println("Caminho não encontrado.");
+            return;
+        }
+
+        // A pilha está em ordem inversa (último visitado no topo)
+        // Inverte para exibir da origem ao destino
+        Stack invertida = new Stack();
+        while (!resultado.isEmpty()) {
+            invertida.push(resultado.pop());
+        }
+
+        System.out.print("Caminho: ");
+        while (!invertida.isEmpty()) {
+            int v = (int) invertida.pop();
+            System.out.print(vetor[v]);
+            if (!invertida.isEmpty()) System.out.print(" -> ");
+        }
+        System.out.println();
+    }
+
+
+    // Buscar Em largura
 }

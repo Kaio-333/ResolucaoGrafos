@@ -1,4 +1,4 @@
-//enqueue → adiciona no final da fila (last)
+package estruturaDeBusca;//enqueue → adiciona no final da fila (last)
 //
 //dequeue → remove do início da fila (first)
 //

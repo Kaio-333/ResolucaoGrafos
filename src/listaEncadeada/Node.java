@@ -1,4 +1,4 @@
-package ListaEncadeada;
+package listaEncadeada;
 
 public class Node{
     private int id;
